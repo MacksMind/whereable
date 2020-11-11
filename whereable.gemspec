@@ -27,8 +27,12 @@ Gem::Specification.new do |spec|
   spec.files =
     Dir.chdir(File.expand_path(__dir__)) do
       `find lib -name '*.rb' -print0`.split("\x0") +
+        `find . -name '*.treetop' -print0`.split("\x0") +
         `find . -name '*.txt' -print0`.split("\x0") +
         `find . -name '*.md' -print0`.split("\x0")
     end
   spec.require_paths = ['lib']
+
+  spec.add_dependency 'activerecord'
+  spec.add_dependency 'treetop'
 end

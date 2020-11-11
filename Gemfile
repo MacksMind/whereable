@@ -21,3 +21,6 @@ gem 'rubocop-performance'
 gem 'rubocop-rspec'
 # Documentation
 gem 'yard'
+
+# Dev/Test against PostgreSQL
+gem 'pg'

@@ -5,6 +5,8 @@ require:
 AllCops:
   EnabledByDefault: true
   TargetRubyVersion: 2.4
+  Exclude:
+    - 'db/schema.rb'
 
 Layout/AccessModifierIndentation:
   EnforcedStyle: outdent
@@ -15,24 +17,37 @@ Lint/ConstantResolution:
 Metrics/BlockLength:
   ExcludedMethods:
     - describe
+    - class_methods
 
 Style/Copyright:
   AutocorrectNotice: '# Copyright 2020 Mack Earnhardt'
   Notice: 'Copyright (\(c\) )?2[0-9]{3} .+'
 
+Style/ClassMethodsDefinitions:
+  EnforcedStyle: self_class
+
+Style/DisableCopsWithinSourceCodeDirective:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
 Style/MethodCallWithArgsParentheses:
-  IgnoredMethods:
-    - desc
-    - describe
-    - gem
-    - not_to
-    - require
-    - require_relative
-    - source
-    - task
-    - to
+  Enabled: false
 
 Style/MissingElse:
   EnforcedStyle: case
+
+Style/StringHashKeys:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
 
 inherit_from: .rubocop_todo.yml

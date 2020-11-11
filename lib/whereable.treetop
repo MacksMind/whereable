@@ -1,0 +1,37 @@
+grammar Whereable
+  rule expression
+    disjunction
+  end
+
+  rule disjunction
+    conjunction opt:( _? 'or'i _? conjunction )* <Disjunction>
+  end
+
+  rule conjunction
+    term opt:( _? 'and'i _? term )* <Conjunction>
+  end
+
+  rule term
+    condition / '(' _? expression _? ')' <NestedExpression>
+  end
+
+  rule condition
+    column _? operator _? literal <Condition>
+  end
+
+  rule _
+    [\s]+
+  end
+
+  rule column
+    [a-zA-Z0-9_]+ <Column>
+  end
+
+  rule operator
+    ( 'eq' / 'ne' / 'gte' / 'gt' / 'lte' / 'lt' / '=' / '!=' / '<>' / '>=' / '>' / '<=' / '<' ) <Operator>
+  end
+
+  rule literal
+    ( '"' ( '\"' / [^"] )+ '"' / "'" ( "''" / "\\'" / [^'] )+ "'" / [^\s)]+ ) <Literal>
+  end
+end
