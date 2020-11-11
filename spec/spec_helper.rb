@@ -3,12 +3,13 @@
 # Copyright 2020 Mack Earnhardt
 
 require 'bundler/setup'
+require 'database_cleaner'
 require 'whereable'
 require 'pry'
 
 begin
   ENV['RAILS_ENV'] ||= 'test'
-  database_config = YAML.load_file('db/database.yml')
+  database_config = YAML.load_file(File.join(__dir__, '../config/database.yml'))
   ActiveRecord::Base.establish_connection(database_config[ENV['RAILS_ENV']])
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
@@ -25,6 +26,22 @@ RSpec.configure do |config|
 
   # Disable RSpec exposing methods globally on `Module` and `main`
   config.disable_monkey_patching!
+
+  # Clean up the database
+  require 'database_cleaner/active_record'
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with :truncation
+  end
+
+  config.before do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
+  end
+
+  config.after do
+    DatabaseCleaner.clean
+  end
 
   config.expect_with(:rspec) do |c|
     c.syntax = :expect

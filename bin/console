@@ -6,7 +6,7 @@
 require 'bundler/setup'
 require 'whereable'
 
-database_config = YAML.load_file('config/database.yml')
+database_config = YAML.load_file(File.join(__dir__, '../config/database.yml'))
 ActiveRecord::Base.establish_connection(database_config['development'])
 
 Dir[File.join(__dir__, '../spec/dummy/**/*.rb')].sort.each { |f| require f }

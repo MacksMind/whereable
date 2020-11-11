@@ -22,5 +22,9 @@ gem 'rubocop-rspec'
 # Documentation
 gem 'yard'
 
-# Dev/Test against PostgreSQL
-gem 'pg'
+# Database
+gem 'sqlite3', '~> 1.4'
+
+group :test do
+  gem 'database_cleaner-active_record'
+end

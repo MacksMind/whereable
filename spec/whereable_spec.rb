@@ -228,5 +228,18 @@ RSpec.describe Whereable do
         expect(Example.whereable(meta[:filter]).to_sql).to eq(meta[:sql])
       end
     end
+
+    describe 'hits database' do
+      let!(:standard) { Example.create!(username: 'standard', role: :standard) }
+      let!(:admin)    { Example.create!(username: 'admin', role: :admin)       }
+
+      it 'selects standard' do
+        expect(Example.whereable('role = standard')).to match_array([standard])
+      end
+
+      it 'selects admin' do
+        expect(Example.whereable('role = admin')).to match_array([admin])
+      end
+    end
   end
 end

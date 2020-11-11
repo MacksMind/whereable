@@ -17,9 +17,10 @@ namespace :db do
     include ActiveRecord::Tasks
     ENV['RAILS_ENV'] ||= 'development'
     DatabaseTasks.env = ENV['RAILS_ENV']
-    DatabaseTasks.db_dir = 'db'
+    DatabaseTasks.root = __dir__
+    DatabaseTasks.db_dir = File.join(__dir__, 'db')
     DatabaseTasks.migrations_paths = File.join(DatabaseTasks.db_dir, 'migrate')
-    database_config = YAML.load_file(File.join(DatabaseTasks.db_dir, 'database.yml'))
+    database_config = YAML.load_file(File.join(__dir__, 'config/database.yml'))
     DatabaseTasks.database_configuration = database_config
     ActiveRecord::Base.establish_connection(database_config[ENV['RAILS_ENV']])
     require_relative File.join(DatabaseTasks.db_dir, 'seeds')
