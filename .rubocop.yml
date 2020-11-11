@@ -1,0 +1,38 @@
+require:
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  EnabledByDefault: true
+  TargetRubyVersion: 2.4
+
+Layout/AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+Lint/ConstantResolution:
+  Enabled: false
+
+Metrics/BlockLength:
+  ExcludedMethods:
+    - describe
+
+Style/Copyright:
+  AutocorrectNotice: '# Copyright 2020 Mack Earnhardt'
+  Notice: 'Copyright (\(c\) )?2[0-9]{3} .+'
+
+Style/MethodCallWithArgsParentheses:
+  IgnoredMethods:
+    - desc
+    - describe
+    - gem
+    - not_to
+    - require
+    - require_relative
+    - source
+    - task
+    - to
+
+Style/MissingElse:
+  EnforcedStyle: case
+
+inherit_from: .rubocop_todo.yml
