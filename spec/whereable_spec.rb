@@ -265,16 +265,23 @@ RSpec.describe Whereable do
       end
     end
 
-    describe 'hits database' do
+    describe 'database query' do
       let!(:standard) { User.create!(username: 'standard', role: :standard) }
+
       let!(:admin)    { User.create!(username: 'admin', role: :admin)       }
 
+      let!(:casper)   { User.create!(username: 'Casper👻', role: :standard) }
+
       it 'selects standard' do
-        expect(User.whereable('role = standard')).to match_array([standard])
+        expect(User.whereable('role = standard')).to match_array([standard, casper])
       end
 
       it 'selects admin' do
         expect(User.whereable('role = admin')).to match_array([admin])
+      end
+
+      it 'handles emoji' do
+        expect(User.whereable('username = Casper👻')).to match_array([casper])
       end
     end
   end
