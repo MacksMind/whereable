@@ -1,3 +1,5 @@
+[![Gem Version](https://badge.fury.io/rb/whereable.svg)](https://badge.fury.io/rb/whereable)
+
 # Whereable
 
 Translates where-like filter syntax into an Arel-based ActiveRecord scope, so you can safely use SQL syntax in Rails controller parameters.
