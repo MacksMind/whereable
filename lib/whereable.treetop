@@ -28,7 +28,7 @@ grammar Whereable
   end
 
   rule operator
-    ( 'eq' / 'ne' / 'gte' / 'gt' / 'lte' / 'lt' / '=' / '!=' / '<>' / '>=' / '>' / '<=' / '<' ) <Operator>
+    ( 'eq'i / 'ne'i / 'gte'i / 'gt'i / 'lte'i / 'lt'i / '=' / '!=' / '<>' / '>=' / '>' / '<=' / '<' ) <Operator>
   end
 
   rule literal

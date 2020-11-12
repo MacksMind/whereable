@@ -45,6 +45,42 @@ RSpec.describe Whereable do
           lt: { column: 'col', literal: '100' },
         },
       },
+      'filters EQ' => {
+        filter: 'col EQ 100',
+        tree: {
+          eq: { column: 'col', literal: '100' },
+        },
+      },
+      'filters NE' => {
+        filter: 'col NE 100',
+        tree: {
+          not_eq: { column: 'col', literal: '100' },
+        },
+      },
+      'filters GTE' => {
+        filter: 'col GTE 100',
+        tree: {
+          gteq: { column: 'col', literal: '100' },
+        },
+      },
+      'filters GT' => {
+        filter: 'col GT 100',
+        tree: {
+          gt: { column: 'col', literal: '100' },
+        },
+      },
+      'filters LTE' => {
+        filter: 'col LTE 100',
+        tree: {
+          lteq: { column: 'col', literal: '100' },
+        },
+      },
+      'filters LT' => {
+        filter: 'col LT 100',
+        tree: {
+          lt: { column: 'col', literal: '100' },
+        },
+      },
       'filters =' => {
         filter: 'col = 100',
         tree: {

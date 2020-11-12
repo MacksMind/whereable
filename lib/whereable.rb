@@ -78,7 +78,7 @@ module Whereable
   module Operator
     # Arel comparion method
     def to_sym
-      OP_SYMS[text_value] || text_value.downcase.to_sym
+      OP_SYMS[text_value.downcase] || text_value.downcase.to_sym
     end
   end
 
