@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    whereable (0.1.1)
-      activerecord
-      treetop
+    whereable (0.1.2)
+      activerecord (>= 4.1.0)
+      treetop (>= 1.5.1)
 
 GEM
   remote: https://rubygems.org/
@@ -59,13 +59,13 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.0)
-    rubocop (1.2.0)
+    rubocop (1.3.0)
       parallel (~> 1.10)
       parser (>= 2.7.1.5)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8)
       rexml
-      rubocop-ast (>= 1.0.1)
+      rubocop-ast (>= 1.1.1)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
     rubocop-ast (1.1.1)
@@ -98,7 +98,7 @@ DEPENDENCIES
   rubocop
   rubocop-performance
   rubocop-rspec
-  sqlite3 (~> 1.4)
+  sqlite3
   whereable!
   yard
 

@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   DESC
   spec.homepage      = 'https://github.com/MacksMind/whereable'
   spec.license       = 'MIT'
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.4.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.3.0')
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = spec.homepage
@@ -35,6 +35,6 @@ Gem::Specification.new do |spec|
     end
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'activerecord'
-  spec.add_dependency 'treetop'
+  spec.add_dependency 'activerecord', '>= 4.1.0'
+  spec.add_dependency 'treetop', '>= 1.5.1'
 end

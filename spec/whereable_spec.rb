@@ -193,24 +193,6 @@ RSpec.describe Whereable do
 
   describe '#whereable_deparse' do
     {
-      'converts date to timestamp' => {
-        tree: {
-          lt: { column: 'created_at', literal: '2020-11-11' },
-        },
-        sql: "\"users\".\"created_at\" < '2020-11-11 00:00:00'",
-      },
-      'converts iso8601 to db timestamp' => {
-        tree: {
-          lt: { column: 'created_at', literal: '2020-11-11T18:28:57Z' },
-        },
-        sql: "\"users\".\"created_at\" < '2020-11-11 18:28:57'",
-      },
-      'converts iso8601 to db date' => {
-        tree: {
-          lt: { column: 'born_on', literal: '2020-11-11T18:28:57Z' },
-        },
-        sql: "\"users\".\"born_on\" < '2020-11-11'",
-      },
       'converts enum to database value' => {
         tree: {
           eq: { column: 'role', literal: 'admin' },

@@ -4,8 +4,8 @@
 
 Dir[File.join(__dir__, '../spec/dummy/**/*.rb')].sort.each { |f| require f }
 
-# Seed loader class
-class Seeds
+# Seed loader module
+module Seeds
   class << self
     # Load the database seeds
     def load_seed

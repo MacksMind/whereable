@@ -4,7 +4,6 @@
 
 require 'whereable/version'
 require 'active_record'
-require 'active_support'
 require 'treetop'
 require 'whereable.treetop'
 
@@ -106,7 +105,7 @@ module Whereable
     )
   end
 
-  class_methods do
+  module ClassMethods
     # Parse filter to hash tree using Treetop PEG
     def whereable_hash_tree(filter)
       parser = WhereableParser.new

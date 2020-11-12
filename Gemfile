@@ -23,7 +23,7 @@ gem 'rubocop-rspec'
 gem 'yard'
 
 # Database
-gem 'sqlite3', '~> 1.4'
+gem 'sqlite3'
 
 group :test do
   # Keep the data clean for specs
