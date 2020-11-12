@@ -138,7 +138,7 @@ RSpec.describe Whereable do
       },
     }.each do |filter_desc, meta|
       it filter_desc do
-        expect(Example.whereable_hash_tree(meta[:filter])).to eq(meta[:tree])
+        expect(User.whereable_hash_tree(meta[:filter])).to eq(meta[:tree])
       end
     end
 
@@ -149,7 +149,7 @@ RSpec.describe Whereable do
       },
     }.each do |error_desc, meta|
       it error_desc do
-        expect { Example.whereable_hash_tree(meta[:filter]) }
+        expect { User.whereable_hash_tree(meta[:filter]) }
           .to raise_exception(Whereable::FilterInvalid, meta[:error])
       end
     end
@@ -161,29 +161,29 @@ RSpec.describe Whereable do
         tree: {
           lt: { column: 'created_at', literal: '2020-11-11' },
         },
-        sql: "\"examples\".\"created_at\" < '2020-11-11 00:00:00'",
+        sql: "\"users\".\"created_at\" < '2020-11-11 00:00:00'",
       },
       'converts iso8601 to db timestamp' => {
         tree: {
           lt: { column: 'created_at', literal: '2020-11-11T18:28:57Z' },
         },
-        sql: "\"examples\".\"created_at\" < '2020-11-11 18:28:57'",
+        sql: "\"users\".\"created_at\" < '2020-11-11 18:28:57'",
       },
       'converts iso8601 to db date' => {
         tree: {
           lt: { column: 'born_on', literal: '2020-11-11T18:28:57Z' },
         },
-        sql: "\"examples\".\"born_on\" < '2020-11-11'",
+        sql: "\"users\".\"born_on\" < '2020-11-11'",
       },
       'converts enum to database value' => {
         tree: {
           eq: { column: 'role', literal: 'admin' },
         },
-        sql: '"examples"."role" = 1',
+        sql: '"users"."role" = 1',
       },
     }.each do |filter_desc, meta|
       it filter_desc do
-        expect(Example.whereable_deparse(meta[:tree]).to_sql).to eq(meta[:sql])
+        expect(User.whereable_deparse(meta[:tree]).to_sql).to eq(meta[:sql])
       end
     end
 
@@ -202,7 +202,7 @@ RSpec.describe Whereable do
       },
     }.each do |error_desc, meta|
       it error_desc do
-        expect { Example.whereable_deparse(meta[:tree]) }
+        expect { User.whereable_deparse(meta[:tree]) }
           .to raise_exception(Whereable::FilterInvalid, meta[:error])
       end
     end
@@ -212,33 +212,33 @@ RSpec.describe Whereable do
     {
       'handles blank' => {
         filter: nil,
-        sql: 'SELECT "examples".* FROM "examples"',
+        sql: 'SELECT "users".* FROM "users"',
       },
       'handles hugged/nested and/or' => {
         filter: '((username=foo)or(username=bar))and((role=standard)or(role=admin))',
         sql: <<~SQL.tr("\n", ' ').rstrip,
-          SELECT "examples".*
-          FROM "examples"
-          WHERE ("examples"."username" = 'foo' OR "examples"."username" = 'bar')
-          AND ("examples"."role" = 0 OR "examples"."role" = 1)
+          SELECT "users".*
+          FROM "users"
+          WHERE ("users"."username" = 'foo' OR "users"."username" = 'bar')
+          AND ("users"."role" = 0 OR "users"."role" = 1)
         SQL
       },
     }.each do |filter_desc, meta|
       it filter_desc do
-        expect(Example.whereable(meta[:filter]).to_sql).to eq(meta[:sql])
+        expect(User.whereable(meta[:filter]).to_sql).to eq(meta[:sql])
       end
     end
 
     describe 'hits database' do
-      let!(:standard) { Example.create!(username: 'standard', role: :standard) }
-      let!(:admin)    { Example.create!(username: 'admin', role: :admin)       }
+      let!(:standard) { User.create!(username: 'standard', role: :standard) }
+      let!(:admin)    { User.create!(username: 'admin', role: :admin)       }
 
       it 'selects standard' do
-        expect(Example.whereable('role = standard')).to match_array([standard])
+        expect(User.whereable('role = standard')).to match_array([standard])
       end
 
       it 'selects admin' do
-        expect(Example.whereable('role = admin')).to match_array([admin])
+        expect(User.whereable('role = admin')).to match_array([admin])
       end
     end
   end

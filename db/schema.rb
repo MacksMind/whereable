@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2020_11_11_164100) do
 
-  create_table "examples", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.text "username"
     t.integer "role", default: 0, null: false
     t.date "born_on"
