@@ -26,5 +26,6 @@ gem 'yard'
 gem 'sqlite3', '~> 1.4'
 
 group :test do
+  # Keep the data clean for specs
   gem 'database_cleaner-active_record'
 end
