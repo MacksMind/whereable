@@ -49,11 +49,15 @@ User.standard.where("born_on < '1970-11-11'")
 ```
 returns Neo as expected, so we're all good.
 
-*Meanwhile&hellip;* Your black hat API consumer passes in `filter=true) or (1=1`, and &hellip;
+*Meanwhile&hellip;* Your black hat API consumer passes in `filter=true) or (true`, and &hellip;
 ``` ruby
-User.standard.where("true) or (1=1")
+User.standard.where("true) or (true")
 ```
-returns **EVERYONE!!!** *This is how the Matrix gets hacked.*
+returns **EVERYONE**, because the database query is &hellip;
+``` SQL
+SELECT "users".* FROM "users" WHERE "users"."role" = 0 AND (true) or (true)
+```
+*This is how the Matrix gets hacked.*
 
 Instead add `include Whereable` to your model, and change your controller to:
 ``` ruby
@@ -65,11 +69,11 @@ User.standard.whereable("born_on < '1970-11-11'")
 ```
 returns Neo as before, but &hellip;
 ``` ruby
-User.standard.whereable("true) or (1=1")
+User.standard.whereable("true) or (true")
 ```
 raises exception &hellip;
 ``` ruby
-Whereable::FilterInvalid ('Invalid filter at ) or (1=1')
+Whereable::FilterInvalid ('Invalid filter at ) or (true')
 ```
 
 ### Syntax
