@@ -88,6 +88,12 @@ Whereable::FilterInvalid ('Invalid filter at ) or (true')
   * 👍 `User.whereable('role = admin')`
   * 👎 `User.whereable('role = 1')`
 
+### Compatibility Notes
+Whereable works with Ruby 2.3.0 and ActiveRecord 4.1.0 or newer, but there's a conflict with Rails &lt; 4.1.6:
+* actionmailer 4.1.5 depends on mail '~> 2.5.4'
+* mail 2.5.x depends on treetop '~> 1.4.8'
+* Whereable depends on treetop '>= 1.5.1'
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
