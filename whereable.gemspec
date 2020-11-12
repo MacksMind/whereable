@@ -10,9 +10,11 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Mack Earnhardt']
   spec.email         = ['mack@agilereasoning.com']
 
-  spec.summary       = 'Translate where-like filter syntax into Arel-based ActiveRecord scope.'
+  spec.summary       = 'Translates where-like filter syntax into an Arel-based ActiveRecord scope.'
   spec.description   = <<~DESC
-    Translate where-like filter syntax into Arel-based ActiveRecord scope.
+    Translates where-like filter syntax into an Arel-based ActiveRecord scope,
+    so you can safely use SQL syntax in Rails controller parameters.
+    Not as powerful as Ransack, but simple and lightweight.
   DESC
   spec.homepage      = 'https://github.com/MacksMind/whereable'
   spec.license       = 'MIT'
