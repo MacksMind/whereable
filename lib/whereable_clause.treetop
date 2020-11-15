@@ -1,4 +1,4 @@
-grammar Whereable
+grammar WhereableClause
   rule expression
     disjunction
   end
