@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    whereable (0.1.2)
+    whereable (0.2.0)
       activerecord (>= 4.1.0)
       treetop (>= 1.5.1)
 
