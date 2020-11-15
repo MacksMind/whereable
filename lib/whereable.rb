@@ -29,7 +29,7 @@ module Whereable
     # Parse filter to hash tree using Treetop PEG
     def whereable_hash_tree(filter)
       parser = WhereableClauseParser.new
-      hash = parser.parse(filter)&.to_h
+      hash = parser.parse(filter.strip)&.to_h
 
       raise FilterInvalid, "Invalid filter at #{filter[parser.max_terminal_failure_index..-1]}" if hash.nil?
 
