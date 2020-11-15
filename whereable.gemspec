@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.description   = <<~DESC
     Translates where-like filter syntax into an Arel-based ActiveRecord scope,
     so you can safely use SQL syntax in Rails controller parameters.
-    Not as powerful as Ransack, but simple and lightweight.
+    What it lacks in power, it gains in simplicity and ease of use for API consumers.
   DESC
   spec.homepage      = 'https://github.com/MacksMind/whereable'
   spec.license       = 'MIT'

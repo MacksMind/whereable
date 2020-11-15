@@ -3,7 +3,7 @@
 # Whereable
 
 Translates where-like filter syntax into an Arel-based ActiveRecord scope, so you can safely use SQL syntax in Rails controller parameters.
-Not as powerful as [Ransack](https://github.com/activerecord-hackery/ransack), but simple and lightweight.
+What it lacks in power, it gains in simplicity and ease of use for API consumers.
 
 ## Installation
 
@@ -30,6 +30,8 @@ class User < ActiveRecord::Base
 
   validates :username, presence: true, uniqueness: true
 
+  validates :born_on, presence: true
+
   enum role: { standard: 0, admin: 1 }
 end
 ```
@@ -37,15 +39,16 @@ With this data:
 ``` ruby
 User.create!(username: 'Morpheus', role: :admin, born_on: '1961-07-30')
 User.create!(username: 'Neo', role: :standard, born_on: '1964-09-02')
+User.create!(username: 'Trinity', role: :standard, born_on: '1967-08-21')
 ```
 Let's assume you're allowing filtered API access to your Users,
 but using the `#standard` scope to keep admins hidden. So your controller might include:
 ``` ruby
 User.standard.where(params[:filter])
 ```
-And your white hat API consumers pass in `filter=born_on < '1970-11-11'` to get Users over 50, and &hellip;
+And your white hat API consumers pass in `filter=born_on < '1967-01-01'`, and &hellip;
 ``` ruby
-User.standard.where("born_on < '1970-11-11'")
+User.standard.where("born_on < '1967-01-01'")
 ```
 returns Neo as expected, so we're all good.
 
@@ -65,7 +68,7 @@ User.standard.whereable(params[:filter])
 ```
 And then &hellip;
 ``` ruby
-User.standard.whereable("born_on < '1970-11-11'")
+User.standard.whereable("born_on < '1967-01-01'")
 ```
 returns Neo as before, but &hellip;
 ``` ruby
@@ -78,9 +81,13 @@ Whereable::FilterInvalid ('Invalid filter at ) or (true')
 
 ### Syntax
 * Supports and/or with nested parentheses as needed
-* Recognizes these operators: `eq ne gte gt lte lt = != <> >= > <= <`
-* Column must be to left of operator, and literal to right
-  * Comparing columns is *not* supported
+* Recognizes these operators: `eq ne gte gt lte lt = != <> >= > <= <`, plus `IN` and `BETWEEN`
+* Column must be to left of operator, and literal(s) to right
+  * Comparing columns to each other is *not* supported
+  * `BETWEEN` requires two literals separated by `AND`
+    * Example: `publish_at between '2020-11-01 12:00 EST' and '2020-11-15 23:59:59 EST'`
+  * `IN` requires comma-separated literals in parentheses
+    * Example: `username in (Morpheus, Trinity)`
 * Quotes are optional unless the literal contains spaces or quotes
   * Supports double or single quotes, and embedded quotes may be backslash escaped
   * Also supports the PostgreSQL double-single embedded quote
@@ -88,11 +95,8 @@ Whereable::FilterInvalid ('Invalid filter at ) or (true')
   * 👍 `User.whereable('role = admin')`
   * 👎 `User.whereable('role = 1')`
 
-### Compatibility Notes
-Whereable works with Ruby 2.3.0 and ActiveRecord 4.1.0 or newer, but there's a conflict with Rails &lt; 4.1.6:
-* actionmailer 4.1.5 depends on mail '~> 2.5.4'
-* mail 2.5.x depends on treetop '~> 1.4.8'
-* Whereable depends on treetop '>= 1.5.1'
+### More
+See the [Wiki](https://github.com/MacksMind/whereable/wiki) for more.
 
 ## Development
 
