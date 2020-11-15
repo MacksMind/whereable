@@ -12,6 +12,16 @@
 
 ActiveRecord::Schema.define(version: 2020_11_15_103300) do
 
+  create_table "posts", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.text "title", null: false
+    t.date "publish_at"
+    t.integer "words"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.text "username"
     t.integer "role", default: 0, null: false
@@ -20,15 +30,5 @@ ActiveRecord::Schema.define(version: 2020_11_15_103300) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "visits", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.text "city", null: false
-    t.date "visit_on", null: false
-    t.integer "score"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_visits_on_user_id"
-  end
-
-  add_foreign_key "visits", "users"
+  add_foreign_key "posts", "users"
 end

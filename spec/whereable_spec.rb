@@ -252,13 +252,13 @@ RSpec.describe Whereable do
     {
       'handles numeric between' => {
         tree: {
-          between: { column: 'score', literals: '50'..'100' },
+          between: { column: 'words', literals: '50'..'100' },
         },
-        sql: '"visits"."score" BETWEEN 50 AND 100',
+        sql: '"posts"."words" BETWEEN 50 AND 100',
       },
-    }.each do |visit_filter_desc, meta|
-      it visit_filter_desc do
-        expect(Visit.whereable_deparse(meta[:tree]).to_sql).to eq(meta[:sql])
+    }.each do |post_filter_desc, meta|
+      it post_filter_desc do
+        expect(Post.whereable_deparse(meta[:tree]).to_sql).to eq(meta[:sql])
       end
     end
 
