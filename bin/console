@@ -5,10 +5,9 @@
 
 require 'bundler/setup'
 require 'whereable'
+require_relative '../db/connection'
 
-database_config = YAML.load_file(File.join(__dir__, '../config/database.yml'))
-ActiveRecord::Base.establish_connection(database_config['development'])
-
+# Pull in the dummy model(s)
 Dir[File.join(__dir__, '../spec/dummy/**/*.rb')].sort.each { |f| require f }
 
 # You can add fixtures and/or initialization code here to make experimenting

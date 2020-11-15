@@ -7,10 +7,10 @@ require 'database_cleaner'
 require 'whereable'
 require 'pry'
 
+ENV['RAILS_ENV'] ||= 'test'
+require_relative '../db/connection'
+
 begin
-  ENV['RAILS_ENV'] ||= 'test'
-  database_config = YAML.load_file(File.join(__dir__, '../config/database.yml'))
-  ActiveRecord::Base.establish_connection(database_config[ENV['RAILS_ENV']])
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
