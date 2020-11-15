@@ -8,7 +8,7 @@ class CreatePosts < ActiveRecord::Migration[6.0]
     create_table :posts do |t|
       t.references  :user, null: false
       t.text        :title, null: false
-      t.date        :publish_at
+      t.datetime    :publish_at
       t.integer     :words
 
       t.timestamps
