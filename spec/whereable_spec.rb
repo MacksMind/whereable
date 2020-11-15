@@ -129,6 +129,18 @@ RSpec.describe Whereable do
           between: { column: 'col', literals: '50'..'100' },
         },
       },
+      'filters in' => {
+        filter: 'col in (a,b,c)',
+        tree: {
+          in: { column: 'col', literals: %w[a b c] },
+        },
+      },
+      'filters in w/single value' => {
+        filter: 'col in (a)',
+        tree: {
+          eq: { column: 'col', literal: 'a' },
+        },
+      },
       'handles single quotes' => {
         filter: "col = 'text'",
         tree: {
@@ -218,6 +230,18 @@ RSpec.describe Whereable do
           between: { column: 'username', literals: 'a'..'m~' },
         },
         sql: "\"users\".\"username\" BETWEEN 'a' AND 'm~'",
+      },
+      'handles in' => {
+        tree: {
+          in: { column: 'username', literals: %w[Morpheus Neo Trinity] },
+        },
+        sql: "\"users\".\"username\" IN ('Morpheus', 'Neo', 'Trinity')",
+      },
+      'handles enum in' => {
+        tree: {
+          in: { column: 'role', literals: %w[standard admin] },
+        },
+        sql: '"users"."role" IN (0, 1)',
       },
     }.each do |user_filter_desc, meta|
       it user_filter_desc do

@@ -12,7 +12,7 @@ grammar WhereableClause
   end
 
   rule term
-    condition / condition_between / '(' _sp? expression _sp? ')' <NestedExpression>
+    condition / condition_between / condition_in / '(' _sp? expression _sp? ')' <NestedExpression>
   end
 
   rule condition
@@ -21,6 +21,10 @@ grammar WhereableClause
 
   rule condition_between
     column _sp 'between'i _sp left:literal _sp 'and'i _sp right:literal <ConditionBetween>
+  end
+
+  rule condition_in
+    column _sp 'in'i _sp? '(' _sp? literal _sp? opt:( ',' _sp? literal _sp? )* ')' <ConditionIn>
   end
 
   rule _sp
@@ -36,6 +40,6 @@ grammar WhereableClause
   end
 
   rule literal
-    ( '"' ( '\"' / [^"] )+ '"' / "'" ( "''" / "\\'" / [^'] )+ "'" / [^\s)]+ ) <Literal>
+    ( '"' ( '\"' / [^"] )+ '"' / "'" ( "''" / "\\'" / [^'] )+ "'" / [^\s,)]+ ) <Literal>
   end
 end

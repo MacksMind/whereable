@@ -73,9 +73,15 @@ module Whereable
         arel_table[column].public_send(key, literal)
       when :between
         column = whereable_valid_column(value[:column])
+        literals = value[:literals]
         raise(FilterInvalid, "Invalid operation for #{column}") if defined_enums.key?(column)
 
-        arel_table[column].between(value[:literals])
+        arel_table[column].between(literals)
+      when :in
+        column = whereable_valid_column(value[:column])
+        literals = value[:literals].map { |l| whereable_valid_literal(column, l) }
+
+        arel_table[column].in(literals)
       else
         raise FilterInvalid, "Invalid hash #{hash}"
       end

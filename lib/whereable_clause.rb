@@ -47,7 +47,7 @@ module WhereableClause
   end
 
   module ConditionBetween
-    # Hash for comparison
+    # Hash for between operator
     def to_h
       {
         between: {
@@ -55,6 +55,27 @@ module WhereableClause
           literals: left.to_s..right.to_s,
         },
       }
+    end
+  end
+
+  module ConditionIn
+    # Hash for in operator
+    def to_h
+      if opt.empty?
+        {
+          eq: {
+            column: column.to_s,
+            literal: literal.to_s,
+          },
+        }
+      else
+        {
+          in: {
+            column: column.to_s,
+            literals: [literal.to_s] + opt.elements.map { |o| o.literal.to_s },
+          },
+        }
+      end
     end
   end
 
