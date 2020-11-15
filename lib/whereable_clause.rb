@@ -46,6 +46,18 @@ module WhereableClause
     end
   end
 
+  module ConditionBetween
+    # Hash for comparison
+    def to_h
+      {
+        between: {
+          column: column.to_s,
+          literals: left.to_s..right.to_s,
+        },
+      }
+    end
+  end
+
   module Column
     # String column name
     def to_s

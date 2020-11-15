@@ -36,6 +36,24 @@ module Whereable
       hash
     end
 
+    # Test column validity
+    def whereable_valid_column(column)
+      raise FilterInvalid, "Invalid column #{column}" unless column_names.include?(column)
+
+      column
+    end
+
+    # Test literal validity
+    def whereable_valid_literal(column, literal)
+      if defined_enums.key?(column)
+        raise(FilterInvalid, "Invalid value #{literal} for #{column}") unless defined_enums[column].key?(literal)
+
+        defined_enums[column][literal]
+      else
+        literal
+      end
+    end
+
     # deparse hash tree to Arel
     def whereable_deparse(hash)
       raise FilterInvalid, "Invalid hash #{hash}" if hash.size > 1
@@ -50,14 +68,14 @@ module Whereable
         end
         arel
       when :eq, :not_eq, :gt, :gteq, :lt, :lteq
-        column = value[:column]
-        literal = value[:literal]
-        raise FilterInvalid, "Invalid column #{column}" unless column_names.include?(column)
-
-        if defined_enums.key?(column)
-          literal = defined_enums[column][literal] || raise(FilterInvalid, "Invalid value #{literal} for #{column}")
-        end
+        column = whereable_valid_column(value[:column])
+        literal = whereable_valid_literal(column, value[:literal])
         arel_table[column].public_send(key, literal)
+      when :between
+        column = whereable_valid_column(value[:column])
+        raise(FilterInvalid, "Invalid operation for #{column}") if defined_enums.key?(column)
+
+        arel_table[column].between(value[:literals])
       else
         raise FilterInvalid, "Invalid hash #{hash}"
       end

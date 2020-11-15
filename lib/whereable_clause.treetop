@@ -4,22 +4,26 @@ grammar WhereableClause
   end
 
   rule disjunction
-    conjunction opt:( _? 'or'i _? conjunction )* <Disjunction>
+    conjunction opt:( _sp? 'or'i _sp? conjunction )* <Disjunction>
   end
 
   rule conjunction
-    term opt:( _? 'and'i _? term )* <Conjunction>
+    term opt:( _sp? 'and'i _sp? term )* <Conjunction>
   end
 
   rule term
-    condition / '(' _? expression _? ')' <NestedExpression>
+    condition / condition_between / '(' _sp? expression _sp? ')' <NestedExpression>
   end
 
   rule condition
-    column _? operator _? literal <Condition>
+    column _sp? operator _sp? literal <Condition>
   end
 
-  rule _
+  rule condition_between
+    column _sp 'between'i _sp left:literal _sp 'and'i _sp right:literal <ConditionBetween>
+  end
+
+  rule _sp
     [\s]+
   end
 
@@ -28,7 +32,7 @@ grammar WhereableClause
   end
 
   rule operator
-    ( 'eq'i &_ / 'ne'i &_ / 'gte'i &_ / 'gt'i &_ / 'lte'i &_ / 'lt'i &_ / '=' / '!=' / '<>' / '>=' / '>' / '<=' / '<' ) <Operator>
+    ( 'eq'i &_sp / 'ne'i &_sp / 'gte'i &_sp / 'gt'i &_sp / 'lte'i &_sp / 'lt'i &_sp / '=' / '!=' / '<>' / '>=' / '>' / '<=' / '<' ) <Operator>
   end
 
   rule literal

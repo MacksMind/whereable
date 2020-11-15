@@ -123,6 +123,12 @@ RSpec.describe Whereable do
           lt: { column: 'col', literal: '100' },
         },
       },
+      'filters between' => {
+        filter: 'col between 50 and 100',
+        tree: {
+          between: { column: 'col', literals: '50'..'100' },
+        },
+      },
       'handles single quotes' => {
         filter: "col = 'text'",
         tree: {
@@ -207,9 +213,28 @@ RSpec.describe Whereable do
         },
         sql: '"users"."role" = 1',
       },
-    }.each do |filter_desc, meta|
-      it filter_desc do
+      'handles between' => {
+        tree: {
+          between: { column: 'username', literals: 'a'..'m~' },
+        },
+        sql: "\"users\".\"username\" BETWEEN 'a' AND 'm~'",
+      },
+    }.each do |user_filter_desc, meta|
+      it user_filter_desc do
         expect(User.whereable_deparse(meta[:tree]).to_sql).to eq(meta[:sql])
+      end
+    end
+
+    {
+      'handles numeric between' => {
+        tree: {
+          between: { column: 'score', literals: '50'..'100' },
+        },
+        sql: '"visits"."score" BETWEEN 50 AND 100',
+      },
+    }.each do |visit_filter_desc, meta|
+      it visit_filter_desc do
+        expect(Visit.whereable_deparse(meta[:tree]).to_sql).to eq(meta[:sql])
       end
     end
 
