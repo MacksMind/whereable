@@ -183,6 +183,14 @@ RSpec.describe Whereable do
         filter: 'integer_a = 123)UNION (SELECT username from users',
         error: 'Invalid filter at )UNION (SELECT username from users',
       },
+      'rejects README example' => {
+        filter: 'true) or (true',
+        error: 'Invalid filter at ) or (true',
+      },
+      'rejects eq without space' => {
+        filter: 'col eq100',
+        error: 'Invalid filter at 100',
+      },
     }.each do |error_desc, meta|
       it error_desc do
         expect { User.whereable_hash_tree(meta[:filter]) }

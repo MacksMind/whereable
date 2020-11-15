@@ -28,7 +28,7 @@ grammar WhereableClause
   end
 
   rule operator
-    ( 'eq'i / 'ne'i / 'gte'i / 'gt'i / 'lte'i / 'lt'i / '=' / '!=' / '<>' / '>=' / '>' / '<=' / '<' ) <Operator>
+    ( 'eq'i &_ / 'ne'i &_ / 'gte'i &_ / 'gt'i &_ / 'lte'i &_ / 'lt'i &_ / '=' / '!=' / '<>' / '>=' / '>' / '<=' / '<' ) <Operator>
   end
 
   rule literal
